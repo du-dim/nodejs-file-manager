@@ -6,12 +6,19 @@ const output = process.stdout;
 const rl = readline.createInterface({ input, output });
 
 const entrance = async () => {
-   const username = args.find((e) => e.includes('--username=')).replace('--username=', '');
-   const welcome = `Welcome to the File Manager, ${username}!\n`;
-   output.write(welcome);   
-   rl.on('line', (input) => {       
-    output.write(input + '\n');
-  }); 
+    const username = args.find((e) => e.includes('--username=')).replace('--username=', '');
+    const welcome = `Welcome to the File Manager, ${username}!\n`;
+    output.write(welcome);   
+    rl.on('line', (input) => {       
+        switch (input) {
+            case '.exit':
+                rl.close();
+                break;
+        
+            default:
+                break;
+        }
+    }); 
 };
 
 entrance();
