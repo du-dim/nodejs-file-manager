@@ -20,7 +20,7 @@ const entrance = async () => {
             case 'help':
                 commands.helpFunc(); 
                 break;               
-            case 'exit':
+            case '.exit':
                 output.write(`Thank you for using File Manager, ${username}!`); 
                 rl.close();
                 break;     
