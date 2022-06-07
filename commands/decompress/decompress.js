@@ -1,0 +1,1 @@
+export const decompressFunc = () => console.log('OperationList: decompress');

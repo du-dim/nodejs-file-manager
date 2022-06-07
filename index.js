@@ -1,14 +1,12 @@
 import readline from 'readline';
 import path from 'path';
-import { link } from 'fs';
+import * as commands from './commands/commands.js';
 
 const __dirname = path.resolve();
 const args = process.argv.slice(2);
 const input = process.stdin;
 const output = process.stdout;
 const rl = readline.createInterface({ input, output });
-
-const  operationList = ['help', '.exit', 'up', 'cd', 'cat', 'add', 'rn', 'cp', 'mv', 'rm', 'os', 'hash', 'compress', 'decompress' ]
 
 const entrance = async () => {
     const username = args.find((e) => e.includes('--username=')).replace('--username=', '');
@@ -17,59 +15,58 @@ const entrance = async () => {
     output.write(`You are currently in ${__dirname}\n`);
     
     rl.on('line', (input) => {   
-        const command = input.trim().split(' ');
-        console.log(command);
-        const operationIndex = operationList.indexOf(command[0]);
-        console.log(operationIndex);
-        switch (operationIndex) {
-            case 0:
-                output.write(`operation ${operationList[0]}\n`);                  
-                break;
-            case 1:
+        const command = input.trim().split(' ');        
+        switch (command[0]) {
+            case 'help':
+                commands.helpFunc(); 
+                break;               
+            case 'exit':
                 output.write(`Thank you for using File Manager, ${username}!`); 
                 rl.close();
                 break;     
-            case 2:
-                output.write(`operation ${operationList[2]}\n`);                 
+            case 'up':
+                commands.upFunc();                 
                 break;   
-            case 3:
-                output.write(`operation ${operationList[3]}\n`);                 
+            case 'cd':
+                commands.cdFunc();                 
                 break;
-            case 4:
-                output.write(`operation ${operationList[4]}\n`);                 
+            case 'cat':
+                commands.catFunc();                 
                 break; 
-            case 5:
-                output.write(`operation ${operationList[5]}\n`);                 
+            case 'add':
+                commands.addFunc();               
                 break;
-            case 6:
-                output.write(`operation ${operationList[6]}\n`);                 
+            case 'rn':
+                commands.rnFunc();                 
                 break;     
-            case 7:
-                output.write(`operation ${operationList[7]}\n`);                 
+            case 'cp':
+                commands.cpFunc();                 
                 break;
-            case 8:
-                output.write(`operation ${operationList[8]}\n`);                
+            case 'mv':
+                commands.mvFunc();             
                 break;
-            case 9:
-                output.write(`operation ${operationList[9]}\n`);                 
+            case 'rm':
+                commands.rmFunc();                 
                 break;
-            case 10:
-                output.write(`operation ${operationList[10]}\n`);                 
+            case 'os':
+                commands.osFunc();                 
                 break;
-            case 11:
-                output.write(`operation ${operationList[11]}\n`);                 
+            case 'hash':
+                commands.hashFunc();                 
                 break;
-            case 12:
-                output.write(`operation ${operationList[12]}\n`);                 
+            case 'compress':
+                commands.compressFunc();                 
                 break;
-            case 13:
-                output.write(`operation ${operationList[13]}\n`);                 
-                break;
+            case 'decompress':
+                commands.decompressFunc();                 
+                break; 
             default:
                 output.write('Invalid input\n');
                 break;
-        }        
+        }    
+        
     }); 
+    
 };
 
 entrance();

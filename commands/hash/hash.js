@@ -1,0 +1,1 @@
+export const hashFunc = () => console.log('OperationList: hash');

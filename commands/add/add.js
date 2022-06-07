@@ -1,0 +1,1 @@
+export const addFunc = () => console.log('OperationList: add');

@@ -1,0 +1,1 @@
+export const cpFunc = () => console.log('OperationList: cp');

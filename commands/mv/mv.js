@@ -1,0 +1,1 @@
+export const mvFunc = () => console.log('OperationList: mv');

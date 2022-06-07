@@ -1,0 +1,1 @@
+export const rnFunc = () => console.log('OperationList: rn');

@@ -1,0 +1,1 @@
+export const compressFunc = () => console.log('OperationList: compress');

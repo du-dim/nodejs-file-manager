@@ -1,0 +1,1 @@
+export const helpFunc = () => console.log('OperationList: help');

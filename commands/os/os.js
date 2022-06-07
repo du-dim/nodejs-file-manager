@@ -1,0 +1,1 @@
+export const osFunc = () => console.log('OperationList: os');
