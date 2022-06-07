@@ -1,7 +1,7 @@
 export const helpFunc = () => {
   function Person(command, description) {
-    this.Command = command;
-    this.Description = description;
+    this.command = command;
+    this.description = description;
   }
   const exit = new Person('.exit', 'Exit from the File Manager');
   const up = new Person('up', 'Go upper from current directory');
@@ -22,6 +22,6 @@ export const helpFunc = () => {
   const compress = new Person('compress path_to_file path_to_destination', 'Compress file');
   const decompress = new Person('decompress path_to_file path_to_destination', 'Decompress file');
  
-  const commands = [exit, up, cd, ls, cat, add, rn, cp, mv, rm, osEOL, osCPU, osHomedir, osUsername, osArchitecture, hash, compress, decompress]
+  const commands = [exit, up, cd, ls, cat, add, rn, cp, mv, rm, osEOL, osCPU, osHomedir, osUsername, osArchitecture, hash, compress, decompress];
   console.table(commands);
 };
