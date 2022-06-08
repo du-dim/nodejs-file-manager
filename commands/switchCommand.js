@@ -1,6 +1,6 @@
 import * as commands from './commands.js';
 
-const switchCommand = async (dirname, command) => { 
+export const switchCommand = async (dirname, command) => { 
   let newDirname  = dirname; 
   switch (command[0]) {
       case 'help':
@@ -43,10 +43,8 @@ const switchCommand = async (dirname, command) => {
           commands.decompressFunc();                                 
           break; 
       default:
-          output.write('Invalid input\n');                
+          process.stdout.write('\x1b[35mInvalid input\n');                
           break;
   }   
   return newDirname
 }
-
-export { switchCommand }

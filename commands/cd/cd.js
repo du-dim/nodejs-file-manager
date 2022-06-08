@@ -17,7 +17,7 @@ export const cdFunc = async (dirname, link) => {
   
   if (!fs.existsSync(currentPath)) {
     currentPath = dirname;
-    process.stdout.write('Invalid input (invalid path)\n');
+    process.stdout.write('\x1b[35mInvalid input (invalid path)\n');
   }
   return currentPath;  
 };
