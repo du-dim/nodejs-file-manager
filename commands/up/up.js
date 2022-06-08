@@ -1,1 +1,0 @@
-export const upFunc = () => console.log('up');

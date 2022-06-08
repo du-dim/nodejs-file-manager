@@ -1,5 +1,4 @@
 import { helpFunc } from './help/help.js';
-import { upFunc } from './up/up.js';
 import { cdFunc } from './cd/cd.js';
 import { catFunc } from './cat/cat.js';
 import { addFunc } from './add/add.js';
@@ -12,4 +11,4 @@ import { hashFunc } from './hash/hash.js';
 import { compressFunc } from './compress/compress.js';
 import { decompressFunc } from './decompress/decompress.js';
 
-export { helpFunc, upFunc, cdFunc, catFunc, addFunc, rnFunc, cpFunc, mvFunc, rmFunc, osFunc, hashFunc, compressFunc, decompressFunc }
+export { helpFunc, cdFunc, catFunc, addFunc, rnFunc, cpFunc, mvFunc, rmFunc, osFunc, hashFunc, compressFunc, decompressFunc }
