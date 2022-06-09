@@ -7,10 +7,10 @@ export const switchCommand = async (dirname, command) => {
           commands.helpFunc();                 
           break;   
       case 'up':
-          newDirname = await commands.cdFunc(dirname, '..');                                 
+        newDirname = await commands.cdFunc(dirname, '..');                                 
           break;   
       case 'cd':          
-          newDirname = await commands.cdFunc(dirname, command.slice(1).join(' '));                                                                         
+        newDirname = await commands.cdFunc(dirname, command.slice(1).join(' '));                                                                         
           break;
       case 'ls':          
           await commands.lsFunc(dirname);                                                                         
@@ -19,7 +19,7 @@ export const switchCommand = async (dirname, command) => {
           await commands.catFunc(dirname, command.slice(1).join(' '));                                 
           break; 
       case 'add':
-          commands.addFunc();                               
+          await commands.addFunc(dirname, command.slice(1).join(' '));                               
           break;
       case 'rn':
           commands.rnFunc();                                 
@@ -46,7 +46,7 @@ export const switchCommand = async (dirname, command) => {
           commands.decompressFunc();                                 
           break; 
       default:
-          process.stdout.write('\x1b[35mInvalid input\n');                
+          process.stdout.write('\x1b[35mInvalid input\n\x1b[0m');                
           break;
   }   
   return newDirname

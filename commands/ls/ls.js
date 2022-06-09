@@ -17,6 +17,6 @@ export const lsFunc = async (dirname) => {
         });
       }                    
   } catch (err) {
-    process.stdout.write('\x1b[35mOperation failed\n' + err.message + '\n');
+    process.stdout.write('\x1b[35mOperation failed\n' + err.message + '\n\x1b[0m');
   }
 };

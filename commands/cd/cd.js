@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
-export const cdFunc = async (dirname, link) => {
-  let currentPath;
+let currentPath;
+export const cdFunc = async (dirname, link) => {  
   if (!path.isAbsolute(link)) {
     currentPath = path.join(dirname, link);    
   } else  {
@@ -17,7 +17,7 @@ export const cdFunc = async (dirname, link) => {
   
   if (!fs.existsSync(currentPath)) {
     currentPath = dirname;
-    process.stdout.write('\x1b[35mInvalid input (invalid path)\n');
+    process.stdout.write('\x1b[35mInvalid input (invalid path)\n\x1b[0m');
   }
   return currentPath;  
 };
