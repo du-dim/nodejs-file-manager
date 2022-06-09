@@ -3,16 +3,20 @@ import path from 'path';
 
 const fsp = fs.promises;
 
-export const lsFunc = async (dirname) => {
-  const arrFileName = [];
+export const lsFunc = async (dirname) => {  
   try {		
     if (!fs.existsSync(dirname)) throw new Error();
-      const data = await fsp.opendir(dirname);
+    const data = await fsp.opendir(dirname);
       for await (const file of data) {
-          arrFileName.push(file.name);
-      }
-      console.log(arrFileName);              
+          fs.stat(path.join(dirname, file.name), function(err, stats) {
+            if (stats.isFile()) {
+                process.stdout.write(`\x1b[32m${file.name}\n`);
+            } else {
+                process.stdout.write(`\x1b[33m${file.name}\n`);
+            }
+        });
+      }                    
   } catch (err) {
-    console.log('\x1b[35mOperation failed\n' + err.message);
+    process.stdout.write('\x1b[35mOperation failed\n' + err.message + '\n');
   }
 };

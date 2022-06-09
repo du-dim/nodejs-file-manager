@@ -16,7 +16,7 @@ export const switchCommand = async (dirname, command) => {
           await commands.lsFunc(dirname);                                                                         
           break;    
       case 'cat':
-          commands.catFunc();                                 
+          await commands.catFunc(dirname, command.slice(1).join(' '));                                 
           break; 
       case 'add':
           commands.addFunc();                               
