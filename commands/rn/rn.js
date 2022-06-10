@@ -26,8 +26,7 @@ export const rnFunc = async (dirname, addition) => {
           if (fs.existsSync(oldPathFile)) {
             const newPathFile = path.join(newDirname, newPathName.join(' ')); 
             await fsp.rename(oldPathFile, newPathFile);
-            process.stdout.write(`\x1b[32m${oldPathFile}\x1b[36m was successfully renamed to \x1b[32m${newPathFile}\n\x1b[0m`);
-            return;          
+            process.stdout.write(`\x1b[32m${oldPathFile}\x1b[36m was successfully renamed to \x1b[32m${newPathFile}\n\x1b[0m`);                      
           }               
         };        
       } 

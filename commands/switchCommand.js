@@ -1,6 +1,8 @@
 import * as commands from './commands.js';
+import { disagree } from './disagree.js';
+import { agree } from './agree.js';
 
-export const switchCommand = async (dirname, command) => { 
+export const switchCommand = async (dirname, command, lastСommand) => { 
   let newDirname  = dirname; 
   switch (command[0]) {
       case 'help':
@@ -25,7 +27,7 @@ export const switchCommand = async (dirname, command) => {
           await commands.rnFunc(dirname, command.slice(1).join(' '));                                 
           break;     
       case 'cp':
-          commands.cpFunc();                                 
+            await commands.cpFunc(dirname, command.slice(1).join(' '));                                 
           break;
       case 'mv':
           commands.mvFunc();                             
@@ -44,7 +46,13 @@ export const switchCommand = async (dirname, command) => {
           break;
       case 'decompress':
           commands.decompressFunc();                                 
-          break; 
+          break;
+      case 'y':
+          await agree(lastСommand);                                          
+          break;
+      case 'n':    
+          await disagree(lastСommand);                                       
+          break;
       default:
           process.stdout.write('\x1b[35mInvalid input\n\x1b[0m');                
           break;

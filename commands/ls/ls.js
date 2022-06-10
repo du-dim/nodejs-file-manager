@@ -10,9 +10,9 @@ export const lsFunc = async (dirname) => {
       for await (const file of data) {
           fs.stat(path.join(dirname, file.name), function(err, stats) {
             if (stats.isFile()) {
-                process.stdout.write(`\x1b[32m${file.name}\n`);
+                process.stdout.write(`\x1b[32m${file.name}\n\x1b[0m`);
             } else {
-                process.stdout.write(`\x1b[33m${file.name}\n`);
+                process.stdout.write(`\x1b[33m${file.name}\n\x1b[0m`);
             }
         });
       }                    
