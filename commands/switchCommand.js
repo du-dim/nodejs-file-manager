@@ -33,7 +33,7 @@ export const switchCommand = async (dirname, command, lastСommand) => {
           commands.mvFunc();                             
           break;
       case 'rm':
-          commands.rmFunc();                                 
+          await commands.rmFunc(dirname, command.slice(1).join(' '));                                 
           break;
       case 'os':
           commands.osFunc();                                 
