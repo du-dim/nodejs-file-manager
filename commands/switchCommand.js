@@ -22,7 +22,7 @@ export const switchCommand = async (dirname, command) => {
           await commands.addFunc(dirname, command.slice(1).join(' '));                               
           break;
       case 'rn':
-          commands.rnFunc();                                 
+          await commands.rnFunc(dirname, command.slice(1).join(' '));                                 
           break;     
       case 'cp':
           commands.cpFunc();                                 
