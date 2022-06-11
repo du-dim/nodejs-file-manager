@@ -1,4 +1,3 @@
-import path from 'path';
 import { pathToFileDir } from '../pathToFileDir.js'
 
 export const cdFunc = async (dirname, link) => {    
