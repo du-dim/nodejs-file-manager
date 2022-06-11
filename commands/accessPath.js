@@ -4,7 +4,6 @@ const fsp = fs.promises;
 export const accessPath = async (pathFile) => {
   try {
     return await fsp.stat(pathFile);    
-  } catch (err) { 
-    return undefined;   
+  } catch (err) {    
   } 
 }

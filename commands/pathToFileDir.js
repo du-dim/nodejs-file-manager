@@ -30,7 +30,7 @@ export const pathToFileDir = async (dirname, addition) => {
     });
 
     // Поллучаем второй путь из команды
-    if (partSecond.length) {
+    if (partSecond.length && (linkCommand.firstFile || linkCommand.firstDir)) {
       linkCommand.tail = true;
       const absoluteSecond = absolutePath(dirname, partSecond.join(' '));
       const result = await accessPath(absoluteSecond);      
