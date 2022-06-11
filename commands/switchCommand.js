@@ -1,7 +1,7 @@
 import * as commands from './commands.js';
 import { disagree } from './disagree.js';
 import { agree } from './agree.js';
-import { pathToFile } from './pathToFileDir.js';
+import { pathToFileDir } from './pathToFileDir.js';
 
 export const switchCommand = async (dirname, command, lastСommand) => { 
   let newDirname  = dirname; 

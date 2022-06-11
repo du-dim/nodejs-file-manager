@@ -6,8 +6,9 @@ export const pathToFileDir = async (dirname, addition) => {
     const linkCommand = {
       firstDir: undefined,
       firstFile: undefined,
+      tail: false,
       secondDir: undefined,
-      secondFile: undefined,
+      secondFile: undefined,      
     }
     const parts = addition.split(' '); 
     const partSecond = parts;
@@ -24,12 +25,13 @@ export const pathToFileDir = async (dirname, addition) => {
         if (res.value.isFile()) {          
           linkCommand.firstFile = absoluteLink[i];          
         };  
-        partSecond.splice(0, i + 1);     
+        partSecond.splice(0, i + 1);             
       }
     });
 
     // Поллучаем второй путь из команды
     if (partSecond.length) {
+      linkCommand.tail = true;
       const absoluteSecond = absolutePath(dirname, partSecond.join(' '));
       const result = await accessPath(absoluteSecond);      
       if (result !== undefined) {

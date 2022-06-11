@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { absolutePath } from "../cd/cd.js";
+import { absolutePath } from "../absolutePath.js";
 
 export const rmFunc = async (dirname, link) => {
   const currentPath = absolutePath(dirname, link);

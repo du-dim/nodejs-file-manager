@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { absolutePath } from "../cd/cd.js";
+import { absolutePath } from "../absolutePath.js";
 
 const fsp = fs.promises;
 

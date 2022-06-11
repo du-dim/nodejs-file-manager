@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import readline from 'readline';
-import { absolutePath } from "../cd/cd.js";
+import { absolutePath } from "../absolutePath.js";
 
 const fsp = fs.promises;
 
