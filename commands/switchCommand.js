@@ -1,6 +1,7 @@
 import * as commands from './commands.js';
 import { disagree } from './disagree.js';
 import { agree } from './agree.js';
+import { pathToFile } from './pathToFileDir.js';
 
 export const switchCommand = async (dirname, command, lastСommand) => { 
   let newDirname  = dirname; 
@@ -30,7 +31,11 @@ export const switchCommand = async (dirname, command, lastСommand) => {
             await commands.cpFunc(dirname, command.slice(1).join(' '));                                 
           break;
       case 'mv':
-          commands.mvFunc();                             
+            const cp = await commands.cpFunc(dirname, command.slice(1).join(' '));
+            const rm = await commands.rmFunc(dirname, command.slice(1).join(' ')); 
+            for (const iterator of [cp, rm]) {
+                iterator;                
+            }                                      
           break;
       case 'rm':
           await commands.rmFunc(dirname, command.slice(1).join(' '));                                 
@@ -52,6 +57,9 @@ export const switchCommand = async (dirname, command, lastСommand) => {
           break;
       case 'n':    
           await disagree(lastСommand);                                       
+          break;
+      case 'link':
+          await pathToFileDir(dirname, command.slice(1).join(' '));                                 
           break;
       default:
           process.stdout.write('\x1b[35mInvalid input\n\x1b[0m');                
