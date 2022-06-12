@@ -34,8 +34,7 @@ export const switchCommand = async (dirname, command) => {
         await commands.rmFunc(dirname, command.slice(1).join(' '));                                 
         break;
     case 'os':
-        await commands.osFunc(command.slice(1).join(' ')); 
-        dirname;                                 
+        await commands.osFunc(command.slice(1).join(' '));                                         
         break;
     case 'hash':
         await commands.hashFunc(dirname, command.slice(1).join(' '));                                 
