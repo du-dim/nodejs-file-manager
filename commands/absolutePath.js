@@ -6,8 +6,8 @@ export const absolutePath = (dirname, link) => {
   } else  {
     const firstDir = dirname.split(/[\\\/]/)[0];
     const firstlink = link.split(/[\\\/]/)[0];
-    if (firstlink === firstDir) {
-      return path.normalize(link);
+    if (path.resolve(firstlink) === path.resolve(firstDir)) {
+      return path.resolve(link);
     } else {
       return path.join(firstDir, link);
     }

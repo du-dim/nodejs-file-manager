@@ -18,8 +18,7 @@ const entrance = async () => {
             rl.close();          
         } else {            
             const command = input.split(' ');            
-            dirname = await switchCommand(dirname, command, lastСommand);                            
-            lastСommand = command[0];  
+            dirname = await switchCommand(dirname, command);             
             process.stdout.write(`\n\x1b[36mYou are currently in \x1b[4m\x1b[33m${dirname}\n\x1b[0m`);          
         }
     })                    

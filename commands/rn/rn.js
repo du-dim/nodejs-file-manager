@@ -30,7 +30,7 @@ export const rnFunc = async (dirname, addition) => {
         if (linkCommandNext.firstFile) return await recurse();                
       } 
       await recurse();
-      
+            
       const textErr1 = `\x1b[32m${fileName + extName}\x1b[35m with the same name already exists in this location.\x1b[0m\n`;
       const textQuestion = `\x1b[35mDo you want to rename "\x1b[36m${fileName + extName}\x1b[35m" to "\x1b[36m${fileName} (${count})${extName}\x1b[35m"? Yes - «\x1b[36my\x1b[35m»; No - «\x1b[36mn\x1b[35m»\x1b[0m\n`; 
       process.stdout.write(textErr1 + textQuestion); 
@@ -55,10 +55,9 @@ export const rnFunc = async (dirname, addition) => {
         process.stdout.write(`\x1b[32m${path.parse(linkCommand.firstFile).base}\x1b[36m was successfully renamed to \x1b[32m${linkCommand.tail}\n\x1b[0m`);        
       });        
     } 
-    return dirname;    
+        
   } catch (error) {
-    process.stdout.write('\x1b[35mOperation failed.\n' + error.message + '\n\x1b[0m');
-    return dirname;
+    process.stdout.write('\x1b[35mOperation failed.\n' + error.message + '\n\x1b[0m');   
   }  
   
 }
