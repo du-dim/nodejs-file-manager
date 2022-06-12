@@ -23,7 +23,7 @@ export const switchCommand = async (dirname, command) => {
         await commands.addFunc(dirname, command.slice(1).join(' '));                               
         break;
     case 'rn':
-        return await commands.rnFunc(dirname, command.slice(1).join(' '));  
+        await commands.rnFunc(dirname, command.slice(1).join(' '));  
     case 'cp':
           await commands.cpFunc(dirname, command.slice(1).join(' '));                                 
         break;
@@ -40,10 +40,10 @@ export const switchCommand = async (dirname, command) => {
         await commands.hashFunc(dirname, command.slice(1).join(' '));                                 
         break;
     case 'compress':
-        commands.compressFunc();                                 
+        await commands.compressFunc(dirname, command.slice(1).join(' '));                                 
         break;
     case 'decompress':
-        commands.decompressFunc();                                 
+        await commands.decompressFunc(dirname, command.slice(1).join(' '));                                 
         break;
     case 'y':                 
           break          
