@@ -8,8 +8,7 @@ const fsp = fs.promises;
 
 export const cpFunc = async (dirname, addition) => {   
   try {
-    const linkCommand = await pathToFileDir(dirname, `${addition}`); 
-    console.log(linkCommand);  
+    const linkCommand = await pathToFileDir(dirname, `${addition}`);     
     if (linkCommand.firstDir) throw Error(`\x1b[33m${linkCommand.firstDir}\x1b[35m is a directory. \nThe path should only be to the file path_to_file.`);     
     if (!linkCommand.firstFile) throw Error('The command must be followed by a path_to_file and path_to_new_directory.');
     if (!linkCommand.tail) throw Error('path_to_file is followed by path_to_new_directory');

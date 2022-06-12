@@ -1,1 +1,27 @@
-export const hashFunc = () => console.log('OperationList: hash');
+import fs from 'fs';
+import { pathToFileDir } from '../pathToFileDir.js'
+import crypto from 'crypto';
+const hash = crypto.createHash('sha256');
+
+export const hashFunc = async (dirname, link) => {
+  try {
+    const linkCommand = await pathToFileDir(dirname, link);      
+    if (linkCommand.tail) throw Error('The command must include only one path_to_file.');
+    if (linkCommand.firstDir) throw Error(`\x1b[33m${linkCommand.firstDir}\x1b[35m is a directory. \nThe path should only be to the file path_to_file.`);
+    if (!linkCommand.firstFile) throw Error('The command must be followed by a path_to_file.');      
+    if (linkCommand.firstFile) {            
+      const promis = new Promise((resolve, reject) => {
+        const myReadStream = fs.createReadStream(linkCommand.firstFile, 'utf8');
+        process.stdout.write(`\x1b[36mHash file: \x1b[4m\x1b[33m${linkCommand.firstFile}\n\x1b[0m`);          
+        myReadStream.pipe(hash).setEncoding('hex').pipe(process.stdout); 
+        myReadStream.on('close', () => {
+          resolve();
+        })       
+      });
+      await promis;
+      process.stdout.write('\n');
+    };    
+  } catch (error) {
+    process.stdout.write('\x1b[35mOperation failed.\n' + error.message + '\n\x1b[0m');      
+  } 
+};
