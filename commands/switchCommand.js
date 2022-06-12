@@ -1,9 +1,7 @@
 import * as commands from './commands.js';
-import { disagree } from './disagree.js';
-import { agree } from './agree.js';
 import { pathToFileDir } from './pathToFileDir.js';
 
-export const switchCommand = async (dirname, command, lastСommand) => { 
+export const switchCommand = async (dirname, command) => { 
   let newDirname  = dirname; 
   switch (command[0]) {
       case 'help':
@@ -25,17 +23,12 @@ export const switchCommand = async (dirname, command, lastСommand) => {
           await commands.addFunc(dirname, command.slice(1).join(' '));                               
           break;
       case 'rn':
-          await commands.rnFunc(dirname, command.slice(1).join(' '));                                 
-          break;     
+          return await commands.rnFunc(dirname, command.slice(1).join(' '));  
       case 'cp':
             await commands.cpFunc(dirname, command.slice(1).join(' '));                                 
           break;
       case 'mv':
-            const cp = await commands.cpFunc(dirname, command.slice(1).join(' '));
-            const rm = await commands.rmFunc(dirname, command.slice(1).join(' ')); 
-            for (const iterator of [cp, rm]) {
-                iterator;                
-            }                                      
+                                                 
           break;
       case 'rm':
           await commands.rmFunc(dirname, command.slice(1).join(' '));                                 
@@ -52,12 +45,10 @@ export const switchCommand = async (dirname, command, lastСommand) => {
       case 'decompress':
           commands.decompressFunc();                                 
           break;
-      case 'y':
-          await agree(lastСommand);                                          
-          break;
-      case 'n':    
-          await disagree(lastСommand);                                       
-          break;
+      case 'y':                 
+            break          
+      case 'n':             
+        break          
       case 'link':
           await pathToFileDir(dirname, command.slice(1).join(' '));                                 
           break;
@@ -67,3 +58,28 @@ export const switchCommand = async (dirname, command, lastСommand) => {
   }   
   return newDirname
 }
+
+
+/*
+export const switchCommand = async (dirname, command) => { 
+    const objSwitch = {
+        help: commands.helpFunc(),
+        up: await commands.cdFunc(dirname, '..'),
+        cd: await commands.cdFunc(dirname, command.slice(1).join(' ')),
+        ls: await commands.lsFunc(dirname),
+        cat: await commands.catFunc(dirname, command.slice(1).join(' ')),
+        add: await commands.addFunc(dirname, command.slice(1).join(' ')),
+        rn: await commands.rnFunc(dirname, command.slice(1).join(' ')),
+        cp: await commands.cpFunc(dirname, command.slice(1).join(' ')),
+        mv: await commands.cpFunc(dirname, command.slice(1).join(' ')),
+        rm: await commands.rmFunc(dirname, command.slice(1).join(' ')),
+        os: await commands.osFunc(),
+        hash: await commands.hashFunc(),
+        compres: await commands.compressFunc(),
+        decomress: await commands.decompressFunc(), 
+    }
+    const choese = objSwitch[command[0]];
+    console.log(choese);
+    return choese;
+}
+*/

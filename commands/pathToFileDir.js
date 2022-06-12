@@ -6,7 +6,7 @@ export const pathToFileDir = async (dirname, addition) => {
     const linkCommand = {
       firstDir: undefined,
       firstFile: undefined,
-      tail: false,
+      tail: undefined,
       secondDir: undefined,
       secondFile: undefined,      
     }
@@ -31,8 +31,8 @@ export const pathToFileDir = async (dirname, addition) => {
 
     // Поллучаем второй путь из команды
     if (partSecond.length && (linkCommand.firstFile || linkCommand.firstDir)) {
-      linkCommand.tail = true;
-      const absoluteSecond = absolutePath(dirname, partSecond.join(' '));
+      linkCommand.tail = partSecond.join(' ');
+      const absoluteSecond = absolutePath(dirname, linkCommand.tail);
       const result = await accessPath(absoluteSecond);      
       if (result !== undefined) {
         if (result.isDirectory()) {          

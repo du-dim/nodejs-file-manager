@@ -1,38 +1,64 @@
-import fs from "fs";
-import path from "path";
-import { absolutePath } from "../absolutePath.js";
+import fs from 'fs';
+import path from 'path';
+import { pathToFileDir } from '../pathToFileDir.js';
+import readline from 'readline';
+
 
 const fsp = fs.promises;
 
-export const rnFunc = async (dirname, addition) => {
+export const rnFunc = async (dirname, addition) => {    
   try {
-    const parts = addition.split(/[\\\/]/);
-    let pathDir = []; 
-    let count = 0;
-    for await (const dir of parts) {
-      count++;      
-      pathDir.push(dir);  
-      const currentPath = absolutePath(dirname, path.join(pathDir.join('\\'))); 
-      if (!fs.existsSync(currentPath) && parts.length === count) {    
-        pathDir.pop(dir);      
-        const newDirname = absolutePath(dirname, path.join(pathDir.join('\\')));      
-        const partsFile = dir.split(' ');      
-        const oldPathName = [];
-        const newPathName = dir.split(' ');
-        for await (const word of partsFile) {
-          oldPathName.push(word.toString()); 
-          newPathName.shift();
-          const oldPathFile = path.join(newDirname, oldPathName.join(' ')); 
-          if (fs.existsSync(oldPathFile)) {
-            const newPathFile = path.join(newDirname, newPathName.join(' ')); 
-            await fsp.rename(oldPathFile, newPathFile);
-            process.stdout.write(`\x1b[32m${oldPathFile}\x1b[36m was successfully renamed to \x1b[32m${newPathFile}\n\x1b[0m`);                      
-          }               
-        };        
+    const linkCommand = await pathToFileDir(dirname, addition);    
+    if (linkCommand.firstDir) throw Error(`\x1b[33m${linkCommand.firstDir}\x1b[35m is a directory. \nThe path should only be to the file path_to_file.`);     
+    if (!linkCommand.firstFile) throw Error('The command must be followed by a path_to_file and new_filename.');
+    if (!linkCommand.tail) throw Error('path_to_file is followed by new_filename');
+    if (linkCommand.tail.search(/[\\\/\:\*\?\"\<\>\|]/) !== -1) {
+      const textErr1 = 'new_filename entered incorrectly.\n';
+      const textErr2 = '\x1b[35mCharacters «\x1b[36m\\\x1b[35m», «\x1b[36m/\x1b[35m», «\x1b[36m:\x1b[35m», «\x1b[36m*\x1b[35m», «\x1b[36m?\x1b[35m», «\x1b[36m"\x1b[35m», «\x1b[36m<\x1b[35m», «\x1b[36m>\x1b[35m», «\x1b[36m|\x1b[35m» cannot be used.\x1b[0m'
+      throw Error(textErr1 + textErr2);
+    }
+    const firstDir = path.dirname(linkCommand.firstFile);
+    const secondFile = path.join(firstDir, linkCommand.tail);
+    const linkCommand2 = await pathToFileDir(dirname, secondFile);            
+    if (linkCommand2.firstFile) {
+      let count = 0;
+      const fileName = path.parse(linkCommand2.firstFile).name;
+      const extName = path.parse(linkCommand2.firstFile).ext;      
+      const recurse = async () => {
+        count++;
+        const linkCommandNext = await pathToFileDir(dirname, path.join(firstDir, `${fileName} (${count})${extName}`));
+        if (linkCommandNext.firstFile) return await recurse();                
       } 
-    };
-    throw new Error('File not found. \x1b[35mCharacters «\x1b[36m\\\x1b[35m», «\x1b[36m/\x1b[35m», «\x1b[36m:\x1b[35m», «\x1b[36m*\x1b[35m», «\x1b[36m?\x1b[35m», «\x1b[36m"\x1b[35m», «\x1b[36m<\x1b[35m», «\x1b[36m>\x1b[35m», «\x1b[36m|\x1b[35m» cannot be used.\x1b[0m');    
+      await recurse();
+      
+      const textErr1 = `\x1b[32m${fileName + extName}\x1b[35m with the same name already exists in this location.\x1b[0m\n`;
+      const textQuestion = `\x1b[35mDo you want to rename "\x1b[36m${fileName + extName}\x1b[35m" to "\x1b[36m${fileName} (${count})${extName}\x1b[35m"? Yes - «\x1b[36my\x1b[35m»; No - «\x1b[36mn\x1b[35m»\x1b[0m\n`; 
+      process.stdout.write(textErr1 + textQuestion); 
+
+      const promise = new Promise((resolve, rejects) => {
+        const input = process.stdin;  
+        const rYN = readline.createInterface({ input });
+        rYN.on('line', async (input) => {                   
+          if (input.trim() === 'y') resolve (true);
+          if (input.trim() === 'n') resolve (false)           
+        });         
+      })   
+      await promise.then(res => {
+        if (res) {
+            fsp.rename(linkCommand.firstFile, path.join(firstDir, `${fileName} (${count})${extName}`), (err) => {
+            process.stdout.write(`\x1b[32m${fileName + extName}\x1b[36m was successfully renamed to \x1b[32m${fileName} (${count})${extName}\n\x1b[0m`);             
+          }); 
+        }
+      })          
+    } else {
+      await fsp.rename(linkCommand.firstFile, secondFile, async (err) => {
+        process.stdout.write(`\x1b[32m${path.parse(linkCommand.firstFile).base}\x1b[36m was successfully renamed to \x1b[32m${linkCommand.tail}\n\x1b[0m`);        
+      });        
+    } 
+    return dirname;    
   } catch (error) {
-    process.stdout.write('\x1b[35mOperation failed\n' + error.message + '\n\x1b[0m');
-  }
+    process.stdout.write('\x1b[35mOperation failed.\n' + error.message + '\n\x1b[0m');
+    return dirname;
+  }  
+  
 }
