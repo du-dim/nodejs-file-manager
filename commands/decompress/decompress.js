@@ -4,9 +4,9 @@ import zlib from 'zlib';
 import { pathToFileDir } from '../pathToFileDir.js';
 import { absolutePath } from '../absolutePath.js';
 
-export const compressFunc = async (dirname, addition) => {
+export const decompressFunc = async (dirname, addition) => {
   try {
-    const unzip = zlib.createUnzip();
+    const brotli = zlib.createBrotliDecompress();
     const linkCommand = await pathToFileDir(dirname, addition);    
     if (linkCommand.firstDir) throw Error(`\x1b[33m${linkCommand.firstDir}\x1b[35m is a directory. \nThe path should only be to the file path_to_file.`);     
     if (!linkCommand.firstFile) throw Error('The command must be followed by a path_to_file and path_to_new_directory.');
@@ -24,14 +24,24 @@ export const compressFunc = async (dirname, addition) => {
         if(err) throw Error('Failed to create folder(s)'); // не удалось создать папки                                                              
       });             
       const myReadStream = fs.createReadStream(linkCommand.firstFile); 
-      const myWriteStream = fs.createWriteStream(path.join(newDir, path.parse(linkCommand.firstFile).name + '.gz'));
-      myReadStream.pipe(unzip).pipe(myWriteStream); 
-      myReadStream.on('close', async () => await fs.promises.rm(linkCommand.firstFile, { recursive: true }));
-    };    
-    const myReadStream = fs.createReadStream(linkCommand.firstFile, 'utf8'); 
-    const myWriteStream = fs.createWriteStream(path.join(linkCommand.secondDir, path.parse(linkCommand.firstFile).name + '.gz'));
-    myReadStream.pipe(unzip).pipe(myWriteStream); 
-    myReadStream.on('close', async () => await fs.promises.rm(linkCommand.firstFile, { recursive: true }));
+      const myWriteStream = fs.createWriteStream(path.join(newDir, path.parse(linkCommand.firstFile).name));
+      const stream = myReadStream.pipe(brotli).pipe(myWriteStream);   
+      const promis =  new Promise((resolve, rejects) => {
+        stream.on('finish', () => resolve());
+        stream.on('error', () => rejects('Error'));
+      });       
+      await promis;   
+    } else {
+      const myReadStream = fs.createReadStream(linkCommand.firstFile); 
+      const myWriteStream = fs.createWriteStream(path.join(linkCommand.secondDir, path.parse(linkCommand.firstFile).name));
+      const stream = myReadStream.pipe(brotli).pipe(myWriteStream);
+      const promis =  new Promise((resolve, rejects) => {
+        stream.on('finish', () => resolve());
+        stream.on('error', () => rejects('Error'));
+      });       
+      await promis;      
+    }    
+    
   } catch (error) {
     process.stdout.write('\x1b[35mOperation failed.\n' + error.message + '\n\x1b[0m');
   }
